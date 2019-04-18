@@ -2,7 +2,8 @@ package application.Hmm;
 
 public class Viterbi {
 
-    public static int[] compute(int[] obs, int[] states, double[] start_p, double[][] trans_p, double[][] emit_p, int nStates,int nObs)
+    public static int[] compute(int[] obs, int[] states, double[] start_p, double[][] trans_p,
+                                double[][] emit_p, int nStates,int nObs)
     {
         double[][] V = new double[nObs][nStates];
         int[][] path = new int[nStates][nObs];

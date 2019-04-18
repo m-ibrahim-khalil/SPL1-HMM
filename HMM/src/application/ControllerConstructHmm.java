@@ -83,7 +83,7 @@ public class ControllerConstructHmm implements Initializable{
 		for (String obs : Variable.observations)
 		{
 			s += obs + " ";
-			System.out.println(s);
+			//System.out.println(s);
 		}
 		
 		input.setText(s);
@@ -117,18 +117,30 @@ public class ControllerConstructHmm implements Initializable{
 				Variable.startProbability, Variable.getTransitionProbability(), 
 				Variable.emissionProbability,Variable.nState, Variable.nObservations);
 		
-		for (int i : result)
-        {
-             os += Variable.states.get(i) + " ";
-     
-        }
-		
+		for (int i : result) {
+			os += Variable.states.get(i) + " ";
+
+		}
+
         output.setText(os);
+
+		s = "";
+		Variable.observations.clear();
+
 	}
 
 	public void estimateCurrentHiddenState (ActionEvent event) throws IOException
 	{
 		containOperationName.setText("Most Likely Current Hidden State");
+
+		int[] result = Viterbi.compute(Variable.getIntEmission(), Variable.getIntstates(),
+				Variable.startProbability, Variable.getTransitionProbability(),
+				Variable.emissionProbability,Variable.nState, Variable.nObservations);
+
+		int n = result.length - 1;
+		int k = result[n];
+		//System.out.println(n + " " + k + " " + Variable.states.get(k) );
+		output.setText(Variable.states.get(k));
 		
 	}
 	
