@@ -78,7 +78,7 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <PieChart legendSide="TOP" prefHeight="200.0" prefWidth="300.0" title="Initial State probability" titleSide="BOTTOM" />
+                  <PieChart fx:id="pieChart" legendSide="TOP" prefHeight="200.0" prefWidth="300.0" title="Initial State probability" titleSide="BOTTOM" />
                </children>
             </HBox>
          </children>

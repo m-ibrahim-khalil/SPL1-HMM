@@ -4,7 +4,7 @@ package application.Hmm;
 //import java.util.Scanner;
 
 public class HMM {
-/*	
+/*
 public static void main(String[] args) {
 		
 		int nState  = 0;

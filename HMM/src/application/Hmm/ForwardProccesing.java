@@ -2,33 +2,35 @@ package application.Hmm;
 
 public class ForwardProccesing {
 	
-	protected double[][] forwardProc(int[] o, int numStates,double [] pi ,double[][] trans_p, double[][] emit_p ) 
+	public static double[][] forwardProc(int[] obs, double [] start_p, double[][] trans_p, double[][] emit_p , int nStates)
 	{ 
 		
-		  double[][] f = new double[numStates][o.length]; 
+		  double[][] probability_table = new double[nStates][obs.length];
 		  //double [][] kola = new double [11][12];
 		  
 		  //System.out.println(kola.length);
+		  int n = probability_table.length;
 		  
-		  for (int l = 0; l < f.length; l++)
+		  for (int l = 0; l < n ; l++)
 		  { 
-			  f[l][0] = pi[l] * emit_p[l][o[0]]; 
-		  } 
-		  for (int i = 1; i < o.length; i++) 
+			  probability_table[l][0] = start_p[l] * emit_p[l][obs[0]];
+		  }
+
+		  for (int i = 1; i < obs.length; i++)
 		  { 
-			  for (int k = 0; k < f.length; k++) 
-			  { 
+			  for (int k = 0; k < n; k++)
+			  {
 				  double sum = 0; 
 				  
-				  for (int l = 0; l < numStates; l++) 
+				  for (int l = 0; l < nStates; l++)
 				  { 
-					  sum += f[l][i-1] * trans_p[l][k]; 
+					  sum += probability_table[l][i-1] * trans_p[l][k];
 				  } 
 				  
-				  f[k][i] = sum * emit_p[k][o[i]]; 
+				  probability_table[k][i] = sum * emit_p[k][obs[i]];
 			  } 
 		 }
 		  
-		 return f; 
+		 return probability_table;
 	} 
 }

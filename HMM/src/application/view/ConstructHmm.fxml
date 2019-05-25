@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerConstructHmm">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerConstructHmm">
    <children>
       <VBox prefHeight="700.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -125,7 +129,7 @@
                      <children>
                         <ScrollPane prefHeight="75.0" prefWidth="1500.0">
                            <content>
-                              <Label fx:id="input" maxWidth="100000.0" prefHeight="75.0" prefWidth="4000.0" text="Input" textFill="#4a66c3">
+                              <Label fx:id="input" maxWidth="100000.0" prefHeight="75.0" prefWidth="4000.0" text="Observed Data Sequence" textFill="#4a66c3">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -140,7 +144,7 @@
                         </HBox>
                         <HBox prefHeight="75.0" prefWidth="800.0" spacing="8.0">
                            <children>
-                              <Button graphicTextGap="5.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#calculateMostLikelyHiddenStateSequence" prefHeight="60.0" prefWidth="160.0" text="Hidden Sequence" textFill="#726d6d" translateX="8.0">
+                              <Button graphicTextGap="5.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#calculateMostLikelyHiddenStateSequence" prefHeight="60.0" prefWidth="140.0" text="Hidden States" textFill="#726d6d" translateX="8.0">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -151,7 +155,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button graphicTextGap="5.0" layoutX="10.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#estimateCurrentHiddenState" prefHeight="60.0" prefWidth="160.0" text="Current State" textFill="#726d6d" translateX="8.0">
+                              <Button graphicTextGap="5.0" layoutX="10.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#estimateCurrentHiddenState" prefHeight="60.0" prefWidth="140.0" text="Current State" textFill="#726d6d" translateX="8.0">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -162,7 +166,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button graphicTextGap="5.0" layoutX="10.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#probabilityOfOvserveSequenceThrowThisModel" prefHeight="60.0" prefWidth="160.0" text="Probability" textFill="#726d6d" translateX="8.0">
+                              <Button graphicTextGap="5.0" layoutX="10.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#probabilityOfOvserveSequenceThrowThisModel" prefHeight="60.0" prefWidth="140.0" text="P(Obs)" textFill="#726d6d" translateX="8.0">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -173,7 +177,18 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button graphicTextGap="5.0" layoutX="170.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#EstimateNextHiddenState" prefHeight="60.0" prefWidth="160.0" text="Next State" textFill="#726d6d" translateX="8.0">
+                              <Button graphicTextGap="5.0" layoutX="170.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#EstimateNextHiddenState" prefHeight="60.0" prefWidth="140.0" text="Next State" textFill="#726d6d" translateX="8.0">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button graphicTextGap="5.0" layoutX="10.0" layoutY="10.0" lineSpacing="4.0" mnemonicParsing="false" onAction="#refreshData" prefHeight="60.0" prefWidth="140.0" text="Refresh" textFill="#726d6d">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -214,4 +229,18 @@
          </children>
       </VBox>
    </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+   <effect>
+      <Glow level="0.33">
+         <input>
+            <InnerShadow>
+               <input>
+                  <ColorAdjust brightness="-0.05" contrast="0.1" hue="0.05" saturation="0.02" />
+               </input>
+            </InnerShadow>
+         </input>
+      </Glow>
+   </effect>
 </AnchorPane>

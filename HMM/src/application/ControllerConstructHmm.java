@@ -74,12 +74,12 @@ public class ControllerConstructHmm implements Initializable{
 	{
 		s = "";
 		treeView();
-		
+
 		for (String emo : Variable.emotions)
 		{
 			observeData.getItems().add(emo);
 		}
-		
+	/*
 		for (String obs : Variable.observations)
 		{
 			s += obs + " ";
@@ -87,6 +87,7 @@ public class ControllerConstructHmm implements Initializable{
 		}
 		
 		input.setText(s);
+		*/
 	}
 	
 	public void treeView ()
@@ -102,7 +103,7 @@ public class ControllerConstructHmm implements Initializable{
 		input.setText(s);
 		Variable.observations.add(observeData.getValue().toString());
 		Variable.nObservations++;
-		System.out.println(Variable.nObservations);
+		//System.out.println(Variable.nObservations);
 	}
 	
 	
@@ -117,16 +118,16 @@ public class ControllerConstructHmm implements Initializable{
 				Variable.startProbability, Variable.getTransitionProbability(), 
 				Variable.emissionProbability,Variable.nState, Variable.nObservations);
 		
-		for (int i : result) {
-			os += Variable.states.get(i) + " ";
-
-		}
-
+		for (int i : result)
+        {
+             os += Variable.states.get(i) + " ";
+     
+        }
+		
         output.setText(os);
-
-		s = "";
-		Variable.observations.clear();
-
+        Variable.observations.removeAll(Variable.observations);
+        System.out.println(Variable.observations.size());
+        //input.setText("");
 	}
 
 	public void estimateCurrentHiddenState (ActionEvent event) throws IOException
@@ -141,23 +142,59 @@ public class ControllerConstructHmm implements Initializable{
 		int k = result[n];
 		//System.out.println(n + " " + k + " " + Variable.states.get(k) );
 		output.setText(Variable.states.get(k));
-		
+
 	}
 	
 	public void probabilityOfOvserveSequenceThrowThisModel (ActionEvent event) throws IOException
 	{
 		containOperationName.setText("Probability of Emision Sequence Throw This Model");
+		double prob = getProbability();
+        //System.out.println(prob);
+        output.setText(Double.toString(prob));
 	}
 	
 	public void EstimateNextHiddenState (ActionEvent event) throws IOException
 	{
 		containOperationName.setText("Most Likely Next Hidden State");
+        int[] result = Viterbi.compute(Variable.getIntEmission(), Variable.getIntstates(),
+                Variable.startProbability, Variable.getTransitionProbability(),
+                Variable.emissionProbability,Variable.nState, Variable.nObservations);
+
+        int n = result.length - 1;
+        int k = result[n];
+        double [] arr  = new double[Variable.nState];
+
+        arr [0] = Variable.transitionProbability[k][0];
+        int max = 0;
+
+        for (int i = 1; i < arr.length; i++)
+        {
+            arr [i] = Variable.transitionProbability[k][i];
+            if (arr[i] > arr [max])
+                max = i;
+        }
+
+        output.setText(Variable.states.get(max));
 	}
-	
-	
-	
-	
-	public void gotoHome (ActionEvent event) throws IOException
+
+
+    public double getProbability() {
+
+        double prob = 0.0;
+
+        double[][] forward = ForwardProccesing.forwardProc(Variable.getIntEmission(), Variable.startProbability,
+                Variable.transitionProbability, Variable.emissionProbability, Variable.nState);
+        // add probabilities
+        for (int i = 0; i < forward.length; i++)
+        {
+        	// for every state
+            prob += forward[i][forward[i].length - 1];
+        }
+
+        return prob;
+    }
+
+    public void gotoHome (ActionEvent event) throws IOException
     {
     	Parent tableViewParent = FXMLLoader.load(getClass().getResource("view/ConstructHmm.fxml"));
     	Scene tableViewScene = new Scene (tableViewParent);
@@ -198,6 +235,31 @@ public class ControllerConstructHmm implements Initializable{
     	Stage window1 = (Stage) ((Node)event.getSource()).getScene().getWindow();
     	window1.setScene(tableViewScene);
     	window1.show();
+    }
+
+    @FXML
+    public void refreshData (ActionEvent event) throws IOException
+    {
+        containOperationName.setText("Refresh all data of HMM!");
+        observeData.getItems().remove(0,Variable.nEmission);
+        root1.setExpanded(true);
+        root1.getChildren().remove(0,Variable.nState);
+
+        root2.setExpanded(true);
+        root2.getChildren().remove(0,Variable.nEmission);
+
+        treeView();
+
+        Variable.nState = 0;
+        Variable.nEmission = 0;
+        Variable.states.clear();
+        Variable.emotions.clear();
+        Variable.observations.clear();
+        Variable.nObservations = 0;
+        input.setText("");
+        output.setText("");
+        s = "";
+
     }
 	
 }

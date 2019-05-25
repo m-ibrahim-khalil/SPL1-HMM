@@ -33,22 +33,21 @@ public class ControllerStateTransition implements Initializable{
 	TextField textField;
 	@FXML
 	Label label;
-	
+
 	public HBox createHbox (String s)
 	{
 		hbox = new HBox();
+		hbox.setSpacing(10);
 		label = new Label();
-		hbox = new HBox();
-		label = new Label();
-		label.prefWidth(200);
-		label.prefHeight(50);
+		label.setPrefHeight(50);
+		label.setPrefWidth(175);
 		label.setTextFill(Color.web("#0076a3"));
 		label.setFont(new Font("Arial",24));
 		label.setWrapText(true);
 		label.setText(s);
 		hbox.getChildren().add(label);
 		hbox.getChildren().add(new TextField());
-		
+
 		return hbox;
 	}
 	

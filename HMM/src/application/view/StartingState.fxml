@@ -64,7 +64,7 @@
             </HBox>
             <HBox prefHeight="350.0" prefWidth="200.0">
                <children>
-                  <ScrollPane fx:id="scrolpane" prefHeight="350.0" prefWidth="400.0" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                  <ScrollPane fx:id="scrolpane" prefHeight="350.0" prefWidth="400.0">
                      <content>
                         <VBox fx:id="vbox" prefHeight="350.0" prefWidth="400.0" />
                      </content>
@@ -78,7 +78,7 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <PieChart legendSide="TOP" prefHeight="200.0" prefWidth="300.0" title="Initial State probability" titleSide="BOTTOM" />
+                  <PieChart fx:id="pieChart" legendSide="TOP" prefHeight="200.0" prefWidth="300.0" title="Initial State probability" titleSide="BOTTOM" />
                </children>
             </HBox>
          </children>
