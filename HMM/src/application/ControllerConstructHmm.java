@@ -1,6 +1,7 @@
 package application;
 
 //import java.beans.Transient;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,8 +46,8 @@ public class ControllerConstructHmm implements Initializable{
 	TreeItem<String> root1 = new TreeItem<>("States");
 	TreeItem<String> root2 = new TreeItem<>("Emissions");
 	
-	@FXML
-	public void addState (ActionEvent event) throws IOException
+	/*@FXML
+	public void AddState (KeyEvent event) throws IOException
 	{
 		String state = stateName.getText().toString();
         Variable.states.add(state);
@@ -56,6 +57,19 @@ public class ControllerConstructHmm implements Initializable{
         Variable.intStates[n] = n;
         n++;
         Variable.nState++;
+	}*/
+
+	@FXML
+	public void addState (ActionEvent event) throws IOException
+	{
+		String state = stateName.getText().toString();
+		Variable.states.add(state);
+		stateName.setText(null);
+		root1.setExpanded(true);
+		root1.getChildren().add(new TreeItem<>(state));
+		Variable.intStates[n] = n;
+		n++;
+		Variable.nState++;
 	}
 	
 	public void addEmission (ActionEvent event) throws IOException

@@ -20,6 +20,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,7 +28,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class ContollerStartingState implements Initializable{
-    public final ObservableList<PieChart.Data> probability = FXCollections.observableArrayList();
+     ObservableList<PieChart.Data> probability ;
 
 	@FXML
 	private ScrollPane scrolpane;
@@ -41,6 +42,8 @@ public class ContollerStartingState implements Initializable{
     private TextField textField;
 	@FXML
     private Label label;
+	@FXML
+    private AnchorPane anchorPane;
 
 	public HBox createHbox (String s)
 	{
@@ -66,7 +69,12 @@ public class ContollerStartingState implements Initializable{
 		{
 			vbox.getChildren().add(createHbox(Variable.states.get(i)));
 		}
-		
+        probability = FXCollections.observableArrayList(
+                new PieChart.Data("Iphone 5S", 13),
+                new PieChart.Data("Samsung Grand", 25),
+                new PieChart.Data("MOTO G", 10),
+                new PieChart.Data("Nokia Lumia", 22)
+        );
 	}
 	
 	public void gotoHome (ActionEvent event) throws IOException
@@ -127,10 +135,16 @@ public class ContollerStartingState implements Initializable{
 
 		}
 
-		pieChart.setData(probability);
-		pieChart.setTitle("Starting state probability");
+		pieChart = new PieChart(probability);
+        pieChart.setClockwise(true);
+        pieChart.setLabelLineLength(50);
+        pieChart.setLabelsVisible(true);
+        pieChart.setStartAngle(180);
+        pieChart.setTitle("Starting state probability");
 		pieChart.setLegendSide(Side.BOTTOM);
 		pieChart.setLabelsVisible(true);
+
+		//anchorPane.getChildren().add(pieChart);
 
 	}
 
