@@ -7,15 +7,20 @@ import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,6 +39,10 @@ public class ControllerStateEmission implements Initializable{
 	TextField textField;
 	@FXML
 	Label label;
+    @FXML
+    PieChart pieChart;
+    @FXML
+    AnchorPane anchorPane;
 
 	public HBox createHbox (String s)
 	{
@@ -54,15 +63,62 @@ public class ControllerStateEmission implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		int i,j;
 		scrolpane.setContent(vbox);
-		for (int i = 0; i < Variable.nState; i++)
+
+		for ( i = 0; i < Variable.nState; i++)
 		{
-			for (int j = 0; j < Variable.nEmission; j++)
+			for ( j = 0; j < Variable.nEmission; j++)
 			{
 				vbox.getChildren().add(createHbox(Variable.states.get(i) +" -> "+ Variable.emotions.get(j)));
 			}
 			
 		}
+
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		int m = Variable.nEmission;
+
+		PieChart.Data [][] slice = new PieChart.Data[n][m];
+		for (i = 0; i < n; i++)
+		{
+			for (j = 0; j < m; j++)
+			{
+				String s = Variable.states.get(i) + "->" + Variable.emotions.get(j);
+				double probability = Variable.emissionProbability[i][j];
+				slice [i][j] = new PieChart.Data(s,probability);
+				pieChart.getData().add(slice[i][j]);
+			}
+
+		}
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
+		pieChart.setClockwise(true);
+		pieChart.setLabelLineLength(10);
+		pieChart.setLabelsVisible(true);
+		pieChart.setStartAngle(90);
+		pieChart.setTitle("Emission probability");
+		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLabelsVisible(true);
+		pieChart.setPrefSize(400, 300);
+
+		anchorPane.getChildren().addAll(pieChart,caption);
+
 		
 	}
 	
@@ -84,7 +140,51 @@ public class ControllerStateEmission implements Initializable{
 			
 			else j++;
 		}
-			
+
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		int m = Variable.nEmission;
+
+		PieChart.Data [][] slice = new PieChart.Data[n][m];
+		for (i = 0; i < n; i++)
+		{
+			for (j = 0; j < m; j++)
+			{
+				String s = Variable.states.get(i) + "->" + Variable.emotions.get(j);
+				double probability = Variable.emissionProbability[i][j];
+				slice [i][j] = new PieChart.Data(s,probability);
+				pieChart.getData().add(slice[i][j]);
+			}
+
+		}
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
+		pieChart.setClockwise(true);
+		pieChart.setLabelLineLength(10);
+		pieChart.setLabelsVisible(true);
+		pieChart.setStartAngle(90);
+		pieChart.setTitle("Emission probability");
+		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLabelsVisible(true);
+		pieChart.setPrefSize(400, 300);
+
+		anchorPane.getChildren().addAll(pieChart,caption);
+
+
 	}
 
 	

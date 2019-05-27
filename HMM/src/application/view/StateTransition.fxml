@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +11,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerStateTransition">
    <children>
-      <VBox fx:id="pieChart" prefHeight="700.0" prefWidth="800.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="700.0" prefWidth="800.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="60.0" prefWidth="800.0">
                <children>
@@ -78,9 +77,9 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <PieChart fx:id="pieChart" legendSide="TOP" prefHeight="200.0" prefWidth="300.0" title="state transition" titleSide="BOTTOM" />
                </children>
             </HBox>
+            <AnchorPane fx:id="anchorPane" prefHeight="212.0" prefWidth="800.0" />
          </children>
       </VBox>
    </children>

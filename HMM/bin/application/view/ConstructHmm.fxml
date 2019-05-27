@@ -74,7 +74,7 @@
                      <children>
                         <HBox prefHeight="150.0" prefWidth="444.0" spacing="10.0">
                            <children>
-                              <TextField fx:id="stateName" prefHeight="60.0" prefWidth="250.0" promptText="Enter State name" translateY="20.0">
+                              <TextField fx:id="stateName" onKeyPressed="#AddState" prefHeight="60.0" prefWidth="250.0" promptText="Enter State name" translateY="20.0">
                                  <HBox.margin>
                                     <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                                  </HBox.margin>
@@ -97,7 +97,7 @@
                         </HBox>
                         <HBox prefHeight="150.0" prefWidth="444.0" spacing="10.0">
                            <children>
-                              <TextField fx:id="emojiName" prefHeight="60.0" prefWidth="250.0" promptText="Enter Emission">
+                              <TextField fx:id="emojiName" onKeyPressed="#AddEmission" prefHeight="60.0" prefWidth="250.0" promptText="Enter Emission">
                                  <HBox.margin>
                                     <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                                  </HBox.margin>

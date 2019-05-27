@@ -10,17 +10,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 
 public class ControllerStateTransition implements Initializable{
 	@FXML
@@ -33,6 +38,10 @@ public class ControllerStateTransition implements Initializable{
 	TextField textField;
 	@FXML
 	Label label;
+	@FXML
+	PieChart pieChart;
+	@FXML
+	AnchorPane anchorPane;
 
 	public HBox createHbox (String s)
 	{
@@ -53,15 +62,60 @@ public class ControllerStateTransition implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		int i,j;
 		scrolpane.setContent(vbox);
-		for (int i = 0; i < Variable.nState; i++)
+
+		for ( i = 0; i < Variable.nState; i++)
 		{
-			for (int j = 0; j < Variable.nState; j++)
+			for (j = 0; j < Variable.nState; j++)
 			{
 				vbox.getChildren().add(createHbox(Variable.states.get(i) +" -> "+ Variable.states.get(j)));
 			}
 			
 		}
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		PieChart.Data [][] slice = new PieChart.Data[n][n];
+		for (i = 0; i < n; i++)
+		{
+			for (j = 0; j < n; j++)
+			{
+				String s = Variable.states.get(i) + "->" + Variable.states.get(j);
+				double probability = Variable.transitionProbability[i][j];
+				slice [i][j] = new PieChart.Data(s,probability);
+				pieChart.getData().add(slice[i][j]);
+			}
+
+		}
+
+		pieChart.setClockwise(true);
+		pieChart.setLabelLineLength(10);
+		pieChart.setLabelsVisible(true);
+		pieChart.setStartAngle(90);
+		pieChart.setTitle("Transition state probability");
+		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLabelsVisible(true);
+
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
+		pieChart.setPrefSize(400, 300);
+
+		anchorPane.getChildren().addAll(pieChart,caption);
 		
 	}
 	
@@ -85,14 +139,49 @@ public class ControllerStateTransition implements Initializable{
 			
 			((TextField)((HBox) o).getChildren().get(1)).setText("");
 		}
-		
-	/*
-		for (int m = 0; m < Variable.getnState(); m++)
+
+
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		PieChart.Data [][] slice = new PieChart.Data[n][n];
+		for (i = 0; i < n; i++)
 		{
-			for (int k = 0; k < Variable.getnState(); k++)
-				System.out.println(Variable.transitionProbability[m][k]);
+			for (j = 0; j < n; j++)
+			{
+				String s = Variable.states.get(i) + "->" + Variable.states.get(j);
+				double probability = Variable.transitionProbability[i][j];
+				slice [i][j] = new PieChart.Data(s,probability);
+				pieChart.getData().add(slice[i][j]);
+			}
+
 		}
-	*/
+		pieChart.setClockwise(true);
+		pieChart.setLabelLineLength(10);
+		pieChart.setLabelsVisible(true);
+		pieChart.setStartAngle(90);
+		pieChart.setTitle("Transition state probability");
+		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLabelsVisible(true);
+
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
+		pieChart.setPrefSize(400, 300);
+
+		anchorPane.getChildren().addAll(pieChart,caption);
 		
 	}
 

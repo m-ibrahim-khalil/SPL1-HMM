@@ -1,7 +1,6 @@
 package application;
 
 //import java.beans.Transient;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class ControllerConstructHmm implements Initializable{
@@ -45,19 +46,6 @@ public class ControllerConstructHmm implements Initializable{
 	TreeItem<String> rootNode = new TreeItem<>("NODE ");
 	TreeItem<String> root1 = new TreeItem<>("States");
 	TreeItem<String> root2 = new TreeItem<>("Emissions");
-	
-	/*@FXML
-	public void AddState (KeyEvent event) throws IOException
-	{
-		String state = stateName.getText().toString();
-        Variable.states.add(state);
-        stateName.setText(null);
-        root1.setExpanded(true);
-        root1.getChildren().add(new TreeItem<>(state));
-        Variable.intStates[n] = n;
-        n++;
-        Variable.nState++;
-	}*/
 
 	@FXML
 	public void addState (ActionEvent event) throws IOException
@@ -196,8 +184,9 @@ public class ControllerConstructHmm implements Initializable{
 
         double prob = 0.0;
 
-        double[][] forward = ForwardProccesing.forwardProc(Variable.getIntEmission(), Variable.startProbability,
-                Variable.transitionProbability, Variable.emissionProbability, Variable.nState);
+        double[][] forward = ForwardProccesing.forwardProc(Variable.getIntEmission(),
+				Variable.startProbability, Variable.transitionProbability,
+				Variable.emissionProbability, Variable.nState);
         // add probabilities
         for (int i = 0; i < forward.length; i++)
         {
@@ -210,7 +199,8 @@ public class ControllerConstructHmm implements Initializable{
 
     public void gotoHome (ActionEvent event) throws IOException
     {
-    	Parent tableViewParent = FXMLLoader.load(getClass().getResource("view/ConstructHmm.fxml"));
+    	Parent tableViewParent = FXMLLoader.load(getClass().getResource
+				("view/ConstructHmm.fxml"));
     	Scene tableViewScene = new Scene (tableViewParent);
     	
     	Stage window1 = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -221,7 +211,8 @@ public class ControllerConstructHmm implements Initializable{
 	@FXML
 	public void gotoStartingState(ActionEvent event) throws IOException
     {
-    	Parent tableViewParent = FXMLLoader.load(getClass().getResource("view/StartingState.fxml"));
+    	Parent tableViewParent = FXMLLoader.load(getClass().getResource
+				("view/StartingState.fxml"));
     	Scene tableViewScene = new Scene (tableViewParent);
     	
     	Stage window1 = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -232,7 +223,8 @@ public class ControllerConstructHmm implements Initializable{
 	@FXML
 	public void gotoStateTransition(ActionEvent event) throws IOException
     {
-    	Parent tableViewParent = FXMLLoader.load(getClass().getResource("view/StateTransition.fxml"));
+    	Parent tableViewParent = FXMLLoader.load(getClass().getResource
+				("view/StateTransition.fxml"));
     	Scene tableViewScene = new Scene (tableViewParent);
     	
     	Stage window1 = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -243,7 +235,8 @@ public class ControllerConstructHmm implements Initializable{
 	@FXML
 	public void gotoStateEmission (ActionEvent event) throws IOException
     {
-    	Parent tableViewParent = FXMLLoader.load(getClass().getResource("view/StateEmission.fxml"));
+    	Parent tableViewParent = FXMLLoader.load(getClass().getResource
+				("view/StateEmission.fxml"));
     	Scene tableViewScene = new Scene (tableViewParent);
     	
     	Stage window1 = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -275,5 +268,41 @@ public class ControllerConstructHmm implements Initializable{
         s = "";
 
     }
+
+    @FXML
+	public void AddState(KeyEvent event)
+	{
+		KeyCode code = event.getCode();
+		if(KeyCode.ENTER.equals(code))
+		{
+			System.out.println("Done");
+			String state = stateName.getText().toString();
+			Variable.states.add(state);
+			stateName.setText(null);
+			root1.setExpanded(true);
+			root1.getChildren().add(new TreeItem<>(state));
+			Variable.intStates[n] = n;
+			n++;
+			Variable.nState++;
+		}
+
+	}
+
+	@FXML
+	public void AddEmission (KeyEvent event)
+	{
+		KeyCode code = event.getCode();
+		if(KeyCode.ENTER.equals(code))
+		{
+			String emo = emojiName.getText();
+			Variable.emotions.add(emo);
+			observeData.getItems().add(emo);
+			emojiName.setText(null);
+			root2.setExpanded(true);
+			root2.getChildren().add(new TreeItem<>(emo));
+			Variable.nEmission++;
+		}
+
+	}
 	
 }

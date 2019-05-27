@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,8 +29,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+
 public class ContollerStartingState implements Initializable{
-     ObservableList<PieChart.Data> probability ;
+     //ObservableList<PieChart.Data> probability ;
 
 	@FXML
 	private ScrollPane scrolpane;
@@ -69,12 +72,43 @@ public class ContollerStartingState implements Initializable{
 		{
 			vbox.getChildren().add(createHbox(Variable.states.get(i)));
 		}
-        probability = FXCollections.observableArrayList(
-                new PieChart.Data("Iphone 5S", 13),
-                new PieChart.Data("Samsung Grand", 25),
-                new PieChart.Data("MOTO G", 10),
-                new PieChart.Data("Nokia Lumia", 22)
-        );
+
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		PieChart.Data [] slice = new PieChart.Data[n];
+		for (int i = 0; i < n; i++)
+		{
+			slice [i] = new PieChart.Data(Variable.states.get(i),Variable.startProbability[i]);
+			pieChart.getData().add(slice[i]);
+		}
+
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
+		pieChart.setClockwise(true);
+		pieChart.setLabelLineLength(10);
+		pieChart.setLabelsVisible(true);
+		pieChart.setStartAngle(90);
+		pieChart.setTitle("Starting state probability");
+		pieChart.setLegendSide(Side.BOTTOM);
+		pieChart.setLabelsVisible(true);
+		pieChart.setPrefSize(400, 300);
+
+		anchorPane.getChildren().addAll(pieChart,caption);
+
 	}
 	
 	public void gotoHome (ActionEvent event) throws IOException
@@ -135,16 +169,46 @@ public class ContollerStartingState implements Initializable{
 
 		}
 
-		pieChart = new PieChart(probability);
+		pieChart = new PieChart();
+		int n = Variable.nState;
+		PieChart.Data [] slice = new PieChart.Data[n];
+		for (int i = 0; i < n; i++)
+		{
+			slice [i] = new PieChart.Data(Variable.states.get(i),Variable.startProbability[i]);
+			pieChart.getData().add(slice[i]);
+		}
+
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 12 arial;");
+
+
+		for (final PieChart.Data data : pieChart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					caption.setTranslateX(e.getSceneX());
+					caption.setTranslateY(e.getSceneY());
+
+					caption.setText(String.valueOf(data.getPieValue()));
+				}
+			});
+		}
         pieChart.setClockwise(true);
-        pieChart.setLabelLineLength(50);
+        pieChart.setLabelLineLength(10);
         pieChart.setLabelsVisible(true);
-        pieChart.setStartAngle(180);
+        pieChart.setStartAngle(90);
         pieChart.setTitle("Starting state probability");
 		pieChart.setLegendSide(Side.BOTTOM);
 		pieChart.setLabelsVisible(true);
+		pieChart.setPrefSize(400, 300);
 
-		//anchorPane.getChildren().add(pieChart);
+		anchorPane.getChildren().addAll(pieChart,caption);
+
+	/*	Stage stage = new Stage();
+		Scene scene = new Scene(anchorPane);
+		stage.setScene(scene);
+		stage.show();*/
 
 	}
 
